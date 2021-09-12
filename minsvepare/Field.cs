@@ -131,10 +131,8 @@ namespace minsvepare
                     int j = y + yoff;
 
 
-                    if (i > -1 && i < cols && j > -1 && j < rows)
+                    if (i > -1 && i < rows && j > -1 && j < cols)
                     {
-                        Console.WriteLine("rows: " + i);
-                        Console.WriteLine("cols: " + j);
 
                         if (cellVector[i, j].mine)
                         {
@@ -246,9 +244,9 @@ namespace minsvepare
 
             firstClick = false;
 
-            Console.WriteLine("första click " + firstClick);
+            /*Console.WriteLine("första click " + firstClick);
             Console.WriteLine("x: " + firstClickRow);
-            Console.WriteLine("y: " + firstClickCol);
+            Console.WriteLine("y: " + firstClickCol);*/
         }
 
         //Rutan är tom.
@@ -263,7 +261,7 @@ namespace minsvepare
                     int i = x + xoff;
                     int j = y + yoff;
 
-                    if (i > -1 && i < cols && j > -1 && j < rows)
+                    if (i > -1 && i < rows && j > -1 && j < cols)
                     {
                         var nearCell = cellVector[i, j];
 

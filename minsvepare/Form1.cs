@@ -21,8 +21,8 @@ namespace minsvepare
         public Field field;
 
         //Laddar in inställningar och skapar spelfält.
-        public int rows = Settings.Default.Width;
-        public int columns = Settings.Default.Height;
+        public int width = Settings.Default.Width;
+        public int height = Settings.Default.Height;
         public int mines = Settings.Default.Mines;
 
         public static int timer = 0;
@@ -31,12 +31,12 @@ namespace minsvepare
         {
             InitializeComponent();
 
-            //this.Size = new Size(rows * 40 + 115, columns * 40 + 130);
+            this.Size = new Size(width * 40 + 115, height * 40 + 130);
         }
 
         private void Form1_Load(object send, EventArgs e)
         {
-            field = new Field(rows, columns, mines);
+            field = new Field(width, height, mines);
 
             btn = new Button[field.cellVector.GetLength(0), field.cellVector.GetLength(1)];
 
