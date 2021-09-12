@@ -158,7 +158,8 @@ namespace minsvepare
                 {
                     if (cellVector[i, j].used)
                     {
-                        
+                        Form1.btn[i, j].Text = null;
+
                         if (cellVector[i, j].nearMines == 0)
                         {
                             Form1.btn[i, j].BackColor = System.Drawing.Color.Green;
@@ -250,6 +251,20 @@ namespace minsvepare
             Console.WriteLine("y: " + firstClickCol);*/
         }
 
+        public void FlagCell(int x, int y)
+        {
+            if(cellVector[x, y].flag)
+            {
+               cellVector[x, y].flag = false;
+               Form1.btn[x, y].Text = "";
+
+            }
+            else
+            {
+               cellVector[x, y].flag = true;
+               Form1.btn[x, y].Text = "⚑";
+            }
+        }
        
         public void FloodFill(int x, int y)
         {

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using minsvepare.Properties;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using minsvepare.Properties;
 
 namespace minsvepare
 {
@@ -52,7 +46,57 @@ namespace minsvepare
                     btn[x, y].Width = 40;
                     btn[x, y].Height = 40;
                     Controls.Add(btn[x, y]);
-                    btn[x, y].Click += B_Click;
+
+                    btn[x, y].MouseUp += (s, args) =>
+                    {
+                        Button btn = (Button)s;
+
+                        if (args.Button == MouseButtons.Left)
+                        {
+                            if (field.gameOver)
+                            {
+                                return;
+                            }
+
+                            int c = (btn.Top - 50) / 40;
+                            int r = (btn.Left - 50) / 40;
+
+                            if (field.cellVector[r, c].flag)
+                            {
+                                return;
+                            }
+
+                            //Kolla rutan
+                            if (r >= 0 && c >= 0)
+                            {
+                                field.CheckCell(r, c);
+                            }
+                        }
+                        if (args.Button == MouseButtons.Right)
+                        {
+                            if (field.gameOver)
+                            {
+                                return;
+                            }
+
+                            //Ta reda på vilken rad och kollumn som har tryckts ned. Dela med knappstorleken för att få reda på vilken som är nedtryckt. 
+                            //X = Rad, Y = Kollumn
+                            int c = (btn.Top - 50) / 40;
+                            int r = (btn.Left - 50) / 40;
+
+                            if (field.cellVector[r, c].used)
+                            {
+                                return;
+                            }
+
+                            //Kolla rutan
+                            if (r >= 0 && c >= 0)
+                            {
+                                field.FlagCell(r, c);
+                            }
+                        }
+                    };
+                    // btn[x, y].Click += B_Click;
                 }
             }
 
@@ -60,7 +104,7 @@ namespace minsvepare
 
 
         //Händelsehanterare för knapptryckningar
-        public void B_Click(object sender, EventArgs e)
+        /*public void B_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
 
@@ -77,13 +121,15 @@ namespace minsvepare
 
             //Kolla rutan
             
+           
+
             if(x >= 0 && y >= 0)
             {
                 field.CheckCell(x, y);
             }
             
            
-        }
+        }*/
 
         private void btnNewGame2_Click(object sender, EventArgs e)
         {
