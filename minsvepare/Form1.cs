@@ -20,23 +20,23 @@ namespace minsvepare
 
         public Field field;
 
-        public static Label lbl;
+        //Laddar in inställningar och skapar spelfält.
+        public int rows = Settings.Default.Width;
+        public int columns = Settings.Default.Height;
+        public int mines = Settings.Default.Mines;
 
         public static int timer = 0;
 
         public Form1()
         {
             InitializeComponent();
+
+            //this.Size = new Size(rows * 40 + 115, columns * 40 + 130);
         }
 
         private void Form1_Load(object send, EventArgs e)
         {
-            //Laddar in inställningar och skapar spelfält.
-            int rows = Settings.Default.Width;
-            int collums = Settings.Default.Height;
-            int mines = Settings.Default.Mines;
-
-            field = new Field(rows, collums, mines);
+            field = new Field(rows, columns, mines);
 
             btn = new Button[field.cellVector.GetLength(0), field.cellVector.GetLength(1)];
 
@@ -46,20 +46,16 @@ namespace minsvepare
                 {
                     btn[x, y] = new Button();
 
-                    btn[x, y].Left = x * 40 + 80;
-                    btn[x, y].Top = y * 40 + 80;
+                    btn[x, y].Font = new Font("Arial", 18);
+                    btn[x, y].Left = x * 40 + 50;
+                    btn[x, y].Top = y * 40 + 50;
                     btn[x, y].Width = 40;
                     btn[x, y].Height = 40;
+                    //btn[x, y].
                     Controls.Add(btn[x, y]);
                     btn[x, y].Click += B_Click;
                 }
             }
-
-                lbl = new Label();
-                lbl.Top = 40;
-                lbl.Left = 60;
-                lbl.Width = 40;
-                lbl.Height = 40;
 
         }
 
@@ -77,8 +73,8 @@ namespace minsvepare
 
             //Ta reda på vilken rad och kollumn som har tryckts ned. Dela med knappstorleken för att få reda på vilken som är nedtryckt. 
             //X = Rad, Y = Kollumn
-            int y = (btn.Top - 80) / 40;
-            int x = (btn.Left - 80) / 40;
+            int y = (btn.Top - 50) / 40;
+            int x = (btn.Left - 50) / 40;
 
             //Kolla rutan
             
@@ -87,30 +83,12 @@ namespace minsvepare
            
         }
 
-        public void OnEnter(object sender, EventArgs e)
-        {
-            
-        }
-
         private void btnNewGame2_Click(object sender, EventArgs e)
         {
             NewGame Game = new NewGame();
             this.Hide();
             Game.ShowDialog();
             this.Close();
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            timer++;
-            lbl.Text = timer.ToString();
-
-            Console.WriteLine(timer);
-        }
-
-        public static void updateLabel(string text)
-        {
-            
         }
     }
 }

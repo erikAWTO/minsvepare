@@ -29,7 +29,26 @@ namespace minsvepare
             Settings.Default.Height = height;
             Settings.Default.Mines = mines;
 
-            if(mines >= width * height)
+            //Lite felhantering
+            if(width > 30 || height > 30)
+            {
+                MessageBox.Show("Too many cells!");
+                return;
+            }
+
+            if(width < 2 || height < 2)
+            {
+                MessageBox.Show("You need more cells!");
+                return;
+            }
+
+            if(mines <= 0)
+            {
+                MessageBox.Show("You need more mines!");
+                return;
+            }
+
+            if(mines >= Convert.ToInt32(width * height - 1))
             {
                 MessageBox.Show("Too many mines!");
                 return;

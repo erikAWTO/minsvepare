@@ -6,7 +6,6 @@
         private bool Used;
         public bool mine { get; set; }
         public bool flag { get; set; }
-        public bool firstClick { get; set; }
         public int nearMines { get; set; }
 
         public static int usedNum;

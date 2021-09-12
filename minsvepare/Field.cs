@@ -7,15 +7,19 @@ using System.Windows.Forms;
 
 namespace minsvepare
 {   //Klass för spelplanen
-    public class Field : Form1
+    public class Field
     {
         private int rows;
         private int cols;
         private int mines;
 
+        private int firstClickRow;
+        private int firstClickCol;
+
         private bool firstClick;
 
         public bool gameOver; 
+
         public Cell[,] cellVector;
 
         // ***************
@@ -23,7 +27,6 @@ namespace minsvepare
         // ***************
         public Field(int x, int y, int mines)
         {
-            Console.WriteLine("nytt");
             //För över argumenten till privata variablar i klassen.
             rows = x;
             cols = y;
@@ -41,6 +44,10 @@ namespace minsvepare
             //Man har ännu inte klickat på någon ruta.
             firstClick = true;
 
+            //Sätter första klicket positionen init till något som inte finns på spelplanen
+            firstClickRow = rows + 1;
+            firstClickCol = cols + 1;
+
             //Skapar en vektor av rutor som spelplan.
             cellVector = new Cell[x, y];
 
@@ -54,6 +61,8 @@ namespace minsvepare
             }
             //Sätter ut minorna.
             CreateMines(mines);
+
+            Console.WriteLine("första click " + firstClick);
         }
 
         #region Privata metoder för minor
@@ -65,7 +74,7 @@ namespace minsvepare
         {
             //Slumpa x och y-värden,  while placerade minor < antal minor, sätt in minor
             Random rand = new Random(Environment.TickCount);
-      
+
             int placedMines = 0;
 
             while(placedMines < mines)
@@ -73,7 +82,12 @@ namespace minsvepare
                 int x = rand.Next(rows);
                 int y = rand.Next(cols);
 
-                if(cellVector[x, y].mine)
+                if(x == firstClickRow && y == firstClickCol)
+                {
+                    continue;
+                }
+
+                if (cellVector[x, y].mine)
                 {
                     continue;
                 }
@@ -84,15 +98,15 @@ namespace minsvepare
                 }
             }
 
-            //Gå igenom vektorn och räkna minor
+            //Gå igenom vektorn och räkna närliggande minor för varje ruta
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
                 {
                     CountNearMines(i, j);
 
-                    Console.WriteLine(" = " + cellVector[i, j].nearMines);
-                    Console.Write(i + "," + j);
+                    //Console.WriteLine(" = " + cellVector[i, j].nearMines);
+                    //Console.Write(i + "," + j);
                     
                 }
             }
@@ -116,8 +130,12 @@ namespace minsvepare
                     int i = x + xoff;
                     int j = y + yoff;
 
+
                     if (i > -1 && i < cols && j > -1 && j < rows)
                     {
+                        Console.WriteLine("rows: " + i);
+                        Console.WriteLine("cols: " + j);
+
                         if (cellVector[i, j].mine)
                         {
                             total++;
@@ -156,20 +174,20 @@ namespace minsvepare
                        
                         if (cellVector[i, j].mine)
                         {
+                            Form1.btn[i, j].Text = "💣";
+
                             if (!gameOver)
                             {
-                                Form1.btn[i, j].Text = "💣";
                                 Form1.btn[i, j].BackColor = System.Drawing.Color.LightGreen;
                             }
                             else
                             {
-                                Form1.btn[i, j].Text = "💣";
                                 Form1.btn[i, j].BackColor = System.Drawing.Color.Red;
                             }
                         }
                        
-                        Console.WriteLine("Krav: " + (rows * cols - mines));
-                        Console.WriteLine("Använda: " + Cell.usedNum);
+                        //Console.WriteLine("Krav: " + (rows * cols - mines));
+                        //Console.WriteLine("Använda: " + Cell.usedNum);
                     }
                 }
             }
@@ -189,25 +207,27 @@ namespace minsvepare
         //Kollar vad rutan innehåller och kallar därefter på rätt metod.
         public void CheckCell(int x, int y)
         {
-            timerScore.Start();
-            //label1.Text = Form1.timer.ToString(); 
 
             if (cellVector[x, y].used)
             {
                 return;
             }
 
-            if (firstClick)
+            if (firstClick && cellVector[x, y].mine)
             {
-                /*for (int i = 0; i < rows; i++)
+                //Lagrar postionen för första klicket.
+                firstClickRow = x;
+                firstClickCol = y;
+
+                //Tar bort alla minor, förbereder för ny spelplan.
+                for (int i = 0; i < rows; i++)
                 {
                     for (int j = 0; j < cols; j++)
                     {
                         cellVector[i, j].mine = false;
                     }
-                }*/
-                firstClick = false;
-                //timerScore.Start();
+                }
+                CreateMines(mines);
             }
 
             if (cellVector[x, y].nearMines == 0)
@@ -223,6 +243,12 @@ namespace minsvepare
             {
                 GameOver(x, y);
             }
+
+            firstClick = false;
+
+            Console.WriteLine("första click " + firstClick);
+            Console.WriteLine("x: " + firstClickRow);
+            Console.WriteLine("y: " + firstClickCol);
         }
 
         //Rutan är tom.
@@ -261,8 +287,6 @@ namespace minsvepare
         {
             gameOver = true;
 
-            timerScore.Stop();
-
             //Sätt alla minor som använda och visa dem.
             for (int i = 0; i < rows; i++)
             {
@@ -281,8 +305,6 @@ namespace minsvepare
         //Spelaren har vunnit, visa alla rutor.
         private void Won()
         {
-            timerScore.Stop();
-            
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
