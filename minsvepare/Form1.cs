@@ -30,7 +30,7 @@ namespace minsvepare
         public Form1()
         {
             InitializeComponent();
-
+            //Gör fönstret propotionellt mot rader och kollumner.
             this.Size = new Size(width * 40 + 115, height * 40 + 130);
         }
 
@@ -51,7 +51,6 @@ namespace minsvepare
                     btn[x, y].Top = y * 40 + 50;
                     btn[x, y].Width = 40;
                     btn[x, y].Height = 40;
-                    //btn[x, y].
                     Controls.Add(btn[x, y]);
                     btn[x, y].Click += B_Click;
                 }
@@ -79,7 +78,10 @@ namespace minsvepare
             //Kolla rutan
             
             if(x >= 0 && y >= 0)
-            field.CheckCell(x, y);
+            {
+                field.CheckCell(x, y);
+            }
+            
            
         }
 
