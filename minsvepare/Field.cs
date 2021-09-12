@@ -72,7 +72,7 @@ namespace minsvepare
         //Skapa minor
         private void CreateMines(int mines)
         {
-            //Slumpa x och y-värden,  while placerade minor < antal minor, sätt in minor
+            //Slumpa x och y-värden, så länge placerade minor < antal minor, sätt in minor.
             Random rand = new Random(Environment.TickCount);
 
             int placedMines = 0;
@@ -82,6 +82,7 @@ namespace minsvepare
                 int x = rand.Next(rows);
                 int y = rand.Next(cols);
 
+                //Om slump-positionen är samma som första klickade positionen, slumpa ny position.
                 if(x == firstClickRow && y == firstClickCol)
                 {
                     continue;
@@ -249,7 +250,7 @@ namespace minsvepare
             Console.WriteLine("y: " + firstClickCol);*/
         }
 
-        //Rutan är tom.
+       
         public void FloodFill(int x, int y)
         {
             //Markera rutan och alla omgivande som använd (ej minor), om tom ruta fortsätt då med rekursiva anrop.

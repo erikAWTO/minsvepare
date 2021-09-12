@@ -34,7 +34,7 @@ namespace minsvepare
             // 
             // btnNewGame2
             // 
-            this.btnNewGame2.Location = new System.Drawing.Point(13, 13);
+            this.btnNewGame2.Location = new System.Drawing.Point(50, 12);
             this.btnNewGame2.Name = "btnNewGame2";
             this.btnNewGame2.Size = new System.Drawing.Size(75, 23);
             this.btnNewGame2.TabIndex = 0;
@@ -47,6 +47,7 @@ namespace minsvepare
             this.ClientSize = new System.Drawing.Size(500, 500);
             this.Controls.Add(this.btnNewGame2);
             this.Name = "Form1";
+            this.Text = "Minsvep by Erik";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
