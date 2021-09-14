@@ -17,8 +17,6 @@ namespace minsvepare
 
         public static Button[,] btn;
 
-        public Random rand = new Random();
-
         public Field field;
 
 
