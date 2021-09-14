@@ -205,9 +205,9 @@ namespace minsvepare
                 firstClickX = x;
                 firstClickY = y;
 
-                for (int i = 0; i < rows; i++)
+                for (int i = 0; i < width; i++)
                 {
-                    for (int j = 0; j < cols; j++)
+                    for (int j = 0; j < height; j++)
                     {
                         cellVector[i, j].mine = false;
                     }
