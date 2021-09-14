@@ -8,28 +8,32 @@ namespace minsvepare
     public partial class Form1 : Form
     {
 
+        //Laddar in inställningar.
+        public int width = Settings.Default.Width;
+        public int height = Settings.Default.Height;
+        public int mines = Settings.Default.Mines;
+
+        public static int score = 0;
+
         public static Button[,] btn;
 
         public Random rand = new Random();
 
         public Field field;
 
-        //Laddar in inställningar och skapar spelfält.
-        public int width = Settings.Default.Width;
-        public int height = Settings.Default.Height;
-        public int mines = Settings.Default.Mines;
-
-        public static int timer = 0;
 
         public Form1()
         {
             InitializeComponent();
+
             //Gör fönstret propotionellt mot rader och kollumner.
             this.Size = new Size(width * 40 + 115, height * 40 + 130);
         }
 
         private void Form1_Load(object send, EventArgs e)
         {
+            tmrScore.Enabled = true;
+
             field = new Field(width, height, mines);
 
             btn = new Button[field.cellVector.GetLength(0), field.cellVector.GetLength(1)];
@@ -47,9 +51,15 @@ namespace minsvepare
                     btn[x, y].Height = 40;
                     Controls.Add(btn[x, y]);
 
+                    //Eventhanterare för klick på knapparna
                     btn[x, y].MouseUp += (s, args) =>
                     {
                         Button btn = (Button)s;
+
+                        //Ta reda på vilken rad och kollumn som har tryckts ned. Dela med knappstorleken för att få reda på vilken som är nedtryckt. 
+                        //X = Rad, Y = Kollumn
+                        int xPos = (btn.Left - 50) / 40;
+                        int yPos = (btn.Top - 50) / 40;
 
                         if (args.Button == MouseButtons.Left)
                         {
@@ -58,20 +68,15 @@ namespace minsvepare
                                 return;
                             }
 
-                            int c = (btn.Top - 50) / 40;
-                            int r = (btn.Left - 50) / 40;
-
-                            if (field.cellVector[r, c].flag)
+                            if (field.cellVector[xPos, yPos].flag)
                             {
                                 return;
                             }
 
-                            //Kolla rutan
-                            if (r >= 0 && c >= 0)
-                            {
-                                field.CheckCell(r, c);
-                            }
+                            field.CheckCell(xPos, yPos);
+
                         }
+
                         if (args.Button == MouseButtons.Right)
                         {
                             if (field.gameOver)
@@ -79,64 +84,37 @@ namespace minsvepare
                                 return;
                             }
 
-                            //Ta reda på vilken rad och kollumn som har tryckts ned. Dela med knappstorleken för att få reda på vilken som är nedtryckt. 
-                            //X = Rad, Y = Kollumn
-                            int c = (btn.Top - 50) / 40;
-                            int r = (btn.Left - 50) / 40;
-
-                            if (field.cellVector[r, c].used)
+                            if (field.cellVector[xPos, yPos].used)
                             {
                                 return;
                             }
 
-                            //Kolla rutan
-                            if (r >= 0 && c >= 0)
-                            {
-                                field.FlagCell(r, c);
-                            }
+                            field.FlagCell(xPos, yPos);
+
                         }
                     };
-                    // btn[x, y].Click += B_Click;
+
                 }
             }
-
         }
 
-
-        //Händelsehanterare för knapptryckningar
-        /*public void B_Click(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-
-            //Om spelet är över slutar vi ta input.
-            if(field.gameOver)
-            {
-                return;
-            }
-
-            //Ta reda på vilken rad och kollumn som har tryckts ned. Dela med knappstorleken för att få reda på vilken som är nedtryckt. 
-            //X = Rad, Y = Kollumn
-            int y = (btn.Top - 50) / 40;
-            int x = (btn.Left - 50) / 40;
-
-            //Kolla rutan
-            
-           
-
-            if(x >= 0 && y >= 0)
-            {
-                field.CheckCell(x, y);
-            }
-            
-           
-        }*/
-
+        //Eventhanterare för klick på "New Game" Knapp
         private void btnNewGame2_Click(object sender, EventArgs e)
         {
             NewGame Game = new NewGame();
+
+            tmrScore.Enabled = false;
+
             this.Hide();
             Game.ShowDialog();
             this.Close();
+        }
+
+        private void tmrScore_Tick(object sender, EventArgs e)
+        {
+            score++;
+
+            label1.Text = score.ToString();
         }
     }
 }

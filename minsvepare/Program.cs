@@ -18,7 +18,6 @@ namespace minsvepare
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new NewGame());
            
-        }
-        
+        } 
     }
 }

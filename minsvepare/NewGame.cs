@@ -57,11 +57,10 @@ namespace minsvepare
             Settings.Default.Save();
 
             Form1 f1 = new Form1();
-            
+
             this.Hide();
             f1.ShowDialog();
             this.Close();
-            
         }
     }
 }

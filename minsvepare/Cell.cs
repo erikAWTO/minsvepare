@@ -15,6 +15,8 @@
             {
                 return Used;
             }
+
+            //Används för att bestämma om spelaren har vunnit. Om antal använda rutor == antal rutor - minor, har spelaren vunnit.
             set
             {
                 if (value)
