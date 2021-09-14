@@ -60,7 +60,7 @@ namespace minsvepare
                 }
             }
             //Sätter ut minorna.
-            CreateMines(mines);
+            //CreateMines(mines);
 
             Console.WriteLine("första click " + firstClick);
         }
@@ -213,20 +213,13 @@ namespace minsvepare
                 return;
             }
 
-            if (firstClick && cellVector[x, y].mine)
+            if (firstClick)
             {
-                //Lagrar postionen för första klicket.
+                //Lagrar postionen för första klicket. För att inte hamna på mina.
                 firstClickRow = x;
                 firstClickCol = y;
 
-                //Tar bort alla minor, förbereder för ny spelplan.
-                for (int i = 0; i < rows; i++)
-                {
-                    for (int j = 0; j < cols; j++)
-                    {
-                        cellVector[i, j].mine = false;
-                    }
-                }
+                //Skapar minor
                 CreateMines(mines);
             }
 
