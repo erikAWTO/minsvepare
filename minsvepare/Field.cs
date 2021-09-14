@@ -205,6 +205,13 @@ namespace minsvepare
                 firstClickX = x;
                 firstClickY = y;
 
+                for (int i = 0; i < rows; i++)
+                {
+                    for (int j = 0; j < cols; j++)
+                    {
+                        cellVector[i, j].mine = false;
+                    }
+                }
                 CreateMines(mines);
             }
 
